@@ -15,6 +15,9 @@ body {
 }
 .tri-fold-viewport {
   height: 100%;
+  @media (max-aspect-ratio: 1/1) {
+    aspect-ratio: var(--book-aspect-ratio);
+  }
 }
 .tri-fold-book {
   position: relative;
@@ -102,7 +105,7 @@ body {
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: #fff;
   }
 }
