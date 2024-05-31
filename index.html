@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tri-fold Brochure</title>
+    <link
+      rel="preload"
+      href="./images/book-front.webp"
+      as="image"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      href="./images/book-back.webp"
+      as="image"
+      type="image/webp"
+    />
+    <style>
+      [x-cloak] {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      class="tri-fold-app"
+      x-data="triFold"
+      x-ref="app"
+      x-cloak
+      :style="{ '--book-aspect-ratio': config.bookWidth / config.bookHeight }"
+    >
+      <div class="tri-fold-viewport" x-ref="viewport">
+        <div
+          class="tri-fold-book"
+          @pointerdown="bookOnPointerDown($event)"
+          @pointerup="bookOnPointerUp($event)"
+          :style="{ '--page-aspect-ratio': (config.bookWidth / 3) / config.bookHeight }"
+        >
+          <div
+            class="tri-fold-page --left --origin-right"
+            x-show="[1,2,3,4].includes(currentStep)"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --left">
+              <img src="./images/book-back.webp" alt />
+            </picture>
+          </div>
+          <div
+            class="tri-fold-page --left --origin-right"
+            x-show="currentStep == 4"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --center">
+              <img src="./images/book-front.webp" alt />
+            </picture>
+          </div>
+
+          <div
+            class="tri-fold-page --right --origin-left"
+            x-show="currentStep == 2"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --right">
+              <img src="./images/book-back.webp" alt />
+            </picture>
+          </div>
+
+          <div
+            class="tri-fold-page --center --origin-left"
+            x-show="[0,1,2,3].includes(currentStep)"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --center">
+              <img src="./images/book-back.webp" alt />
+            </picture>
+          </div>
+          <div
+            class="tri-fold-page --center --origin-right"
+            :class="{ '--origin-reverse': [0,4].includes(currentStep) || (currentStep == 3 && stepDirection == 'backward') }"
+            x-show="[0,1,3].includes(currentStep)"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --left">
+              <img src="./images/book-front.webp" alt />
+            </picture>
+          </div>
+          <div
+            class="tri-fold-page --center --origin-left"
+            x-show="currentStep == 0"
+            x-transition:enter="--transition-enter"
+            x-transition:enter-start="--to-enter-start"
+            x-transition:enter-end="--to-enter-end"
+            x-transition:leave="--transition-leave"
+            x-transition:leave-start="--to-leave-start"
+            x-transition:leave-end="--to-leave-end"
+          >
+            <picture class="tri-fold-page__image --right">
+              <img src="./images/book-front.webp" alt />
+            </picture>
+          </div>
+        </div>
+      </div>
+
+      <aside class="tri-fold-guide" x-show="guide === true" x-transition>
+        <span class="tri-fold-guide__text">Click or Tap to turn the page.</span>
+      </aside>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
